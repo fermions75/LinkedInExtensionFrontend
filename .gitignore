@@ -15,8 +15,6 @@ coverage
 _docpress
 .DS_Store
 
-lib
-dist
 tsconfig.tsbuildinfo
 
 # Visual Studio Code configs
@@ -36,7 +34,6 @@ __package_previews__
 privatePackages/store
 
 ## Verdaccio storage
-storage
 
 yarn.lock
 
