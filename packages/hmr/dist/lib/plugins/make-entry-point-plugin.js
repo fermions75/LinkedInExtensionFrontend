@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.makeEntryPointPlugin = void 0;
+exports.makeEntryPointPlugin = makeEntryPointPlugin;
 const fs = __importStar(require("fs"));
 const path_1 = __importDefault(require("path"));
 /**
@@ -78,7 +78,6 @@ function makeEntryPointPlugin() {
         },
     };
 }
-exports.makeEntryPointPlugin = makeEntryPointPlugin;
 /**
  * Extract content directory from output directory for Firefox
  * @param outputDir

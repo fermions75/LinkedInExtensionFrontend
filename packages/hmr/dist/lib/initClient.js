@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = initReloadClient;
 const constant_1 = require("./constant");
 const interpreter_1 = __importDefault(require("./interpreter"));
 function initReloadClient({ id, onUpdate }) {
@@ -38,4 +39,3 @@ function initReloadClient({ id, onUpdate }) {
         ws === null || ws === void 0 ? void 0 : ws.send(interpreter_1.default.send({ type: 'done_update' }));
     }
 }
-exports.default = initReloadClient;

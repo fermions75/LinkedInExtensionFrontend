@@ -1,6 +1,6 @@
 import { Button, CircularProgress, Stack, TextField, Typography } from '@mui/material';
 import { navigationAtom, PAGES } from '@src/atoms';
-import { apiGetAllPersonas, apiLogin } from '@src/util';
+import { apiGetAllCommentTypes, apiGetAllPersonas, apiLogin } from '@src/util';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useSetRecoilState } from 'recoil';
@@ -17,6 +17,7 @@ const Login = () => {
     try {
       await apiLogin(email, password);
       await apiGetAllPersonas();
+      await apiGetAllCommentTypes();
       setNav(PAGES.HOME);
     } catch (e) {
       console.log(e);

@@ -1,17 +1,11 @@
 import { useEffect, useState } from 'react';
 
-const DEMO_COMMENT_TYPES = [
-  { _id: 1, name: 'Comment Type 1' },
-  { _id: 2, name: 'Comment Type 2' },
-  { _id: 3, name: 'Comment Type 3' },
-];
-
 export default function App() {
   const [personaId, setPersonaId] = useState('select');
   const [commentTypeId, setCommentTypeId] = useState('select');
   const [isGenerating, setIsGenerating] = useState(false);
   const [personas, setPersonas] = useState([]);
-  const [commentTypes, setCommentTypes] = useState(DEMO_COMMENT_TYPES);
+  const [commentTypes, setCommentTypes] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -55,6 +49,7 @@ export default function App() {
   }, [personaId]);
 
   useEffect(() => {
+    console.log('commentTypeId: ', commentTypeId);
     chrome.storage.sync.set({ selectedCommentTypeId: commentTypeId });
   }, [commentTypeId]);
 
@@ -87,8 +82,8 @@ export default function App() {
         onChange={e => setCommentTypeId(e.target.value)}
         value={commentTypeId}>
         <option value="select">Select Type</option>
-        {commentTypes.map(commentType => (
-          <option key={commentType._id}>{commentType.name}</option>
+        {commentTypes.map(({ _id, name }) => (
+          <option key={_id} value={_id}>{name || _id}</option>
         ))}
       </select>
 

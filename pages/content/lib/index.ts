@@ -1,4 +1,3 @@
-import { Keyboard } from 'test-keyboard';
 const POST_HOLDER_ID = 'fie-impression-container';
 const EDITOR_CLASS = 'ql-editor';
 
@@ -31,26 +30,26 @@ const scrapData = async () => {
   let commentThread1 = '';
   let replyingTo = 'Replying to post';
 
+  //add tje root comment
   if (commentArticleHolder) {
     const commentatorName =
       commentArticleHolder
-        ?.querySelector('.comments-post-meta__name-text span[aria-hidden="true"]')
+        ?.querySelector('span.comments-post-meta__name-text')
         ?.textContent?.trim() || '';
     const commentText =
       commentArticleHolder?.querySelector('.comments-comment-item__main-content')?.textContent?.trim() || '';
     commentThread1 += `${commentatorName}:\n ${commentText}\n`;
   }
 
+  //add all the replies
+  console.log('commentArticleHolder: ', commentArticleHolder);
   const comments = commentArticleHolder?.querySelectorAll('.comments-comment-item') || [];
-  comments.forEach(comment => {
-    const replies = comment.querySelectorAll('.comments-reply-item');
-    replies.forEach(reply => {
-      const replierName =
-        reply.querySelector('.comments-post-meta__name-text span[aria-hidden="true"]')?.textContent?.trim() || '';
-      const replyText = reply.querySelector('.comments-comment-item__main-content')?.textContent?.trim() || '';
+  comments.forEach(reply => {
+    const replierName =
+      reply.querySelector('.comments-post-meta__name-text span[aria-hidden="true"]')?.textContent?.trim() || '';
+    const replyText = reply.querySelector('.comments-comment-item__main-content')?.textContent?.trim() || '';
 
-      commentThread1 += `${replierName}:\n ${replyText}\n`;
-    });
+    commentThread1 += `${replierName}:\n ${replyText}\n`;
   });
 
   // console.log('Post Header kaka: ', postHeader);
