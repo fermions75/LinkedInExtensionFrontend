@@ -15,10 +15,6 @@ export default function App() {
 
   useEffect(() => {
     const loadData = async () => {
-      const { personas: pData } = await chrome.storage.local.get(['personas']);
-
-      setPersonas(pData || []);
-
       const { selectedPersonaId, selectedCommentTypeId } = await chrome.storage.sync.get([
         'selectedPersonaId',
         'selectedCommentTypeId',
@@ -34,6 +30,23 @@ export default function App() {
       if (request.action === 'commentGenerationDone') {
         setIsGenerating(false);
       }
+    });
+  }, []);
+
+  useEffect(() => {
+    chrome.storage.local.onChanged.addListener(changes => {
+      if (changes.personas) {
+        setPersonas(changes.personas.newValue || []);
+      }
+
+      if (changes.commentTypes) {
+        setCommentTypes(changes.commentTypes.newValue || []);
+      }
+    });
+
+    chrome.storage.local.get(['personas', 'commentTypes']).then(({ personas, commentTypes }) => {
+      setPersonas(personas || []);
+      setCommentTypes(commentTypes || []);
     });
   }, []);
 
@@ -63,7 +76,9 @@ export default function App() {
         value={personaId}>
         <option value="select">Select Persona</option>
         {personas.map(({ _id, job }: { _id: string; job: string }) => (
-          <option key={_id} value={_id}>{job || _id}</option>
+          <option key={_id} value={_id}>
+            {job || _id}
+          </option>
         ))}
       </select>
 
