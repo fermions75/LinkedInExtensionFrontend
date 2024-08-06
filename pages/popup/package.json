@@ -22,6 +22,7 @@
     "@chrome-extension-boilerplate/storage": "workspace:*",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.16.6",
     "@mui/material": "^5.15.21",
     "react-toastify": "^10.0.5",
     "recoil": "^0.7.7"
