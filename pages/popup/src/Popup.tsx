@@ -7,7 +7,7 @@ import Home from './pages/Home';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
-import { apiGetAllCommentTypes, apiGetAllPersonas, apiRefreshToken } from './util';
+import { apiGetAllCommentTypes, apiGetAllPersonas, apiGetUser, apiRefreshToken } from './util';
 
 const Popup = () => {
   const [navState, setNav] = useRecoilState(navigationAtom);
@@ -20,6 +20,7 @@ const Popup = () => {
         await apiRefreshToken();
         await apiGetAllPersonas();
         await apiGetAllCommentTypes();
+        await apiGetUser()
         return setNav(PAGES.HOME);
       } catch (e) {
         console.log(e);

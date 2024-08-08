@@ -22,7 +22,7 @@ import {
 } from '@mui/icons-material';
 import { navigationAtom, PAGES } from '@src/atoms';
 import { useSetRecoilState } from 'recoil';
-import { apiGetAllCommentTypes, apiGetAllPersonas, apiRefreshToken } from '@src/util';
+import { apiGetAllCommentTypes, apiGetAllPersonas, apiGetUser, apiRefreshToken } from '@src/util';
 import { toast } from 'react-toastify';
 
 const BorderLinearProgress = styled(LinearProgress)(() => ({
@@ -40,9 +40,7 @@ const BorderLinearProgress = styled(LinearProgress)(() => ({
 const Home = () => {
   const setNav = useSetRecoilState(navigationAtom);
 
-  const [personas, setPersonas] = useState([]);
   const [authInfo, setAuthInfo] = useState([]);
-  console.log('🚀 ~ Home ~ authInfo:', authInfo);
 
   const logout = async () => {
     await chrome.storage.session.clear();
@@ -61,13 +59,12 @@ const Home = () => {
   };
 
   useEffect(() => {
-    chrome.storage.local.get(['personas', 'authInfo']).then(({ personas, authInfo }) => {
-      setPersonas(personas || []);
+    chrome.storage.local.get(['authInfo']).then(({ authInfo }) => {
       setAuthInfo(authInfo || []);
     });
   }, []);
 
-  const value = (800 / 1000) * 100;
+  const value = (authInfo?.availableRequest / 1000) * 100;
 
   const asyncCheck = async () => {
     const localData = await chrome.storage.local.get('authInfo');
@@ -76,6 +73,7 @@ const Home = () => {
       await apiRefreshToken();
       await apiGetAllPersonas();
       await apiGetAllCommentTypes();
+      await apiGetUser()
       return setNav(PAGES.HOME);
     } catch (e) {
       console.log(e);
@@ -132,7 +130,7 @@ const Home = () => {
       </Box>
 
       <Box width="100%">
-        <Typography fontSize="14px">Credits: 800</Typography>
+        <Typography fontSize="14px">Credits: {value}</Typography>
         <BorderLinearProgress variant="determinate" value={value} />
       </Box>
       <Box
@@ -147,7 +145,7 @@ const Home = () => {
         }}>
         <Typography fontSize="12px" display="flex" alignItems="center" ml={1}>
           <GroupsOutlinedIcon fontSize="small" style={{ marginRight: '8px' }} />
-          Personas: {personas?.length}
+          Personas: {authInfo?.personaCount}
         </Typography>
         <IconButton sx={{ p: 0, mr: 1 }}>
           <AddOutlinedIcon />
@@ -163,9 +161,9 @@ const Home = () => {
           borderRadius: '12px',
           width: '100%',
         }}>
-        <Typography fontSize="12px" display="flex" alignItems="center" ml={1}>
+        <Typography fontSize="12px" display="flex" alignItems="center" ml={1} textTransform='capitalize'>
           <Diversity2OutlinedIcon fontSize="small" style={{ marginRight: '8px' }} />
-          Plan: Free
+          Plan: {authInfo?.status}
         </Typography>
         <IconButton sx={{ p: 0, mr: 1 }}>
           <OpenInNewIcon sx={{ fontSize: '18px' }} />
