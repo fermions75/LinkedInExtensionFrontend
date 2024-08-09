@@ -20,7 +20,8 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@chrome-extension-boilerplate/shared": "workspace:*"
+    "@chrome-extension-boilerplate/shared": "workspace:*",
+    "@mui/icons-material": "^5.16.6"
   },
   "devDependencies": {
     "@chrome-extension-boilerplate/tailwindcss-config": "workspace:*",

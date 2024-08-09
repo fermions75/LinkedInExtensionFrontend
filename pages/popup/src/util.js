@@ -80,3 +80,21 @@ export const apiRefreshToken = async () => {
   await chrome.storage.local.set({ authInfo });
   return data;
 };
+
+export const apiGetUser = async () => {
+  let { authInfo } = await chrome.storage.local.get('authInfo');
+  const email = authInfo?.user?.email;
+  const response = await fetch(`${APP_URL}/api/auth/getUser`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email }),
+  });
+  
+  const data = await response.json();
+
+  authInfo = { ...authInfo, ...data };
+  await chrome.storage.local.set({ authInfo });
+  return data;
+};
