@@ -41,12 +41,18 @@ const Home = () => {
   const setNav = useSetRecoilState(navigationAtom);
 
   const [authInfo, setAuthInfo] = useState([]);
+  console.log("🚀 ~ Home ~ authInfo:", authInfo)
 
   const logout = async () => {
     await chrome.storage.session.clear();
     await chrome.storage.local.clear();
     setNav('LOGIN');
     handleClose();
+  };
+
+  const handleView = () => {
+    handleClose();
+    window.open('https://algoclanai.vercel.app/dashboard', '_blank');
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -73,7 +79,7 @@ const Home = () => {
       await apiRefreshToken();
       await apiGetAllPersonas();
       await apiGetAllCommentTypes();
-      await apiGetUser()
+      await apiGetUser();
       return setNav(PAGES.HOME);
     } catch (e) {
       console.log(e);
@@ -123,14 +129,14 @@ const Home = () => {
             MenuListProps={{
               'aria-labelledby': 'basic-button',
             }}>
-            <MenuItem onClick={handleClose}>View Dashboard</MenuItem>
+            <MenuItem onClick={handleView}>View Dashboard</MenuItem>
             <MenuItem onClick={logout}>Logout</MenuItem>
           </Menu>
         </Box>
       </Box>
 
       <Box width="100%">
-        <Typography fontSize="14px">Credits: {value}</Typography>
+        <Typography fontSize="14px">Credits: {authInfo?.availableRequest}</Typography>
         <BorderLinearProgress variant="determinate" value={value} />
       </Box>
       <Box
@@ -147,7 +153,9 @@ const Home = () => {
           <GroupsOutlinedIcon fontSize="small" style={{ marginRight: '8px' }} />
           Personas: {authInfo?.personaCount}
         </Typography>
-        <IconButton sx={{ p: 0, mr: 1 }}>
+        <IconButton
+          sx={{ p: 0, mr: 1 }}
+          onClick={() => window.open('https://algoclanai.vercel.app/dashboard/personas', '_blank')}>
           <AddOutlinedIcon />
         </IconButton>
       </Box>
@@ -161,11 +169,13 @@ const Home = () => {
           borderRadius: '12px',
           width: '100%',
         }}>
-        <Typography fontSize="12px" display="flex" alignItems="center" ml={1} textTransform='capitalize'>
+        <Typography fontSize="12px" display="flex" alignItems="center" ml={1} textTransform="capitalize">
           <Diversity2OutlinedIcon fontSize="small" style={{ marginRight: '8px' }} />
           Plan: {authInfo?.status}
         </Typography>
-        <IconButton sx={{ p: 0, mr: 1 }}>
+        <IconButton
+          sx={{ p: 0, mr: 1 }}
+          onClick={() => window.open('https://algoclanai.vercel.app/dashboard/subscription', '_blank')}>
           <OpenInNewIcon sx={{ fontSize: '18px' }} />
         </IconButton>
       </Box>

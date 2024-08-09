@@ -1,6 +1,6 @@
 import { Box, Button, CircularProgress, Stack, styled, TextField, Typography } from '@mui/material';
 import { navigationAtom, PAGES } from '@src/atoms';
-import { apiGetAllCommentTypes, apiGetAllPersonas, apiLogin } from '@src/util';
+import { apiGetAllCommentTypes, apiGetAllPersonas, apiGetUser, apiLogin } from '@src/util';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useSetRecoilState } from 'recoil';
@@ -48,6 +48,7 @@ const Login = () => {
       await apiLogin(email, password);
       await apiGetAllPersonas();
       await apiGetAllCommentTypes();
+      await apiGetUser();
       setNav(PAGES.HOME);
     } catch (e) {
       console.log(e);
@@ -86,7 +87,7 @@ const Login = () => {
         />
         <Typography fontSize="12px" display="flex" alignItems="center" mt={1}>
           <LockIcon fontSize="small" style={{ marginRight: '4px' }} />
-          Email
+          Password
         </Typography>
         <CustomTextField
           fullWidth
